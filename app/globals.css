@@ -138,11 +138,11 @@
 }
 
 /*
- * Persian (/fa/): Vazirmatn for Persian glyphs; Inter stays first so Latin
- * words (Next.js, React…) look the same as on the English page.
+ * Persian (/fa/): IRANSansX for Persian glyphs; Inter stays first so Latin
+ * words and digits (Next.js 16, React…) look the same as on the English page.
  */
 html[lang="fa"] {
-  --font-sans: var(--font-inter-fa), var(--font-vazirmatn), Tahoma, sans-serif;
+  --font-sans: var(--font-inter-fa), var(--font-iransansx), Tahoma, sans-serif;
 }
 /* Letter-spacing pulls joined Persian letters apart, so tracking is off. */
 html[lang="fa"] body * { letter-spacing: normal; }

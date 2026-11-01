@@ -160,7 +160,7 @@ my-app/
 - Each language has its own root layout (`app/(en)`, `app/(fa)`), so `/fa/` gets a real `<html lang="fa" dir="rtl">`. Unmatched URLs use `app/global-not-found.tsx`.
 - `data/content.ts` assembles everything a page renders per language: resume data plus UI strings. Sections take a `content` prop instead of importing `data/resume.ts`.
 - Persian text lives in `data/resume.fa.ts`. Jobs are keyed by company name, and the build fails if a job in `data/resume.ts` has no Persian entry. **When you change the English resume, update the Persian file too.**
-- Layout uses logical properties (`ps-*`, `start-*`, `text-start`), so it mirrors in RTL. Persian glyphs use Vazirmatn; Latin words on `/fa/` keep Inter.
+- Layout uses logical properties (`ps-*`, `start-*`, `text-start`), so it mirrors in RTL. Persian glyphs use IRANSansX (self-hosted from `app/fonts/iransansx/`, commercial font under its web license); Latin words on `/fa/` keep Inter.
 
 #### Search Console setup
 1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/` and pick the **HTML tag** method.
