@@ -4,7 +4,7 @@ import { Document } from '@/components/site/Document';
 import { PERSONAL } from '@/data/resume';
 import { PERSONAL_FA } from '@/data/resume.fa';
 import { HREFLANG, OG_LOCALE } from '@/lib/i18n';
-import { interFa, vazirmatn } from '@/lib/fonts';
+import { interFa, iranSansX } from '@/lib/fonts';
 import { baseMetadata, OG_IMAGE } from '@/lib/metadata';
 import { SITE_DESCRIPTION_FA, SITE_TITLE_FA } from '@/lib/site';
 import '../globals.css';
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 
 export default function PersianLayout({ children }: { children: ReactNode }) {
   return (
-    <Document locale="fa" fontClassName={`${interFa.variable} ${vazirmatn.variable}`}>
+    <Document locale="fa" fontClassName={`${interFa.variable} ${iranSansX.variable}`}>
       {children}
     </Document>
   );
