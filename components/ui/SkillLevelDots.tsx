@@ -1,18 +1,23 @@
 import type { SkillLevel } from '@/data/resume';
+import { formatNumber, type Locale } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 const DOTS = [1, 2, 3, 4, 5] as const;
 
 type SkillLevelDotsProps = {
   level: SkillLevel;
+  locale: Locale;
+  /** Template with {level} and {max}, e.g. "Skill level {level} of {max}". */
+  label: string;
 };
 
-export function SkillLevelDots({ level }: SkillLevelDotsProps) {
+export function SkillLevelDots({ level, locale, label }: SkillLevelDotsProps) {
+  const n = (v: number) => formatNumber(locale, v);
   return (
     <span
       role="img"
-      aria-label={`Skill level ${level} of 5`}
-      title={`${level}/5`}
+      aria-label={label.replace('{level}', n(level)).replace('{max}', n(DOTS.length))}
+      title={`${n(level)}/${n(DOTS.length)}`}
       className="flex shrink-0 items-center gap-1.5"
     >
       {DOTS.map((n) => (

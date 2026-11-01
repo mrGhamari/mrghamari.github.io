@@ -1,25 +1,26 @@
-import { EXPERIENCE } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { TimelineItem } from '@/components/ui/TimelineItem';
+import type { Content } from '@/data/content';
 
-export function Experience() {
+export function Experience({ content }: { content: Content }) {
+  const section = content.ui.sections.experience;
+  const { experience } = content;
+
   return (
     <section
       id="experience"
-      aria-label="Professional experience"
+      aria-label={section.label}
       className="scroll-mt-20 py-16 md:py-24"
     >
       <Container>
-        <SectionHeading eyebrow="03 — Experience">
-          Where I’ve worked.
-        </SectionHeading>
+        <SectionHeading eyebrow={section.eyebrow}>{section.title}</SectionHeading>
         <ol>
-          {EXPERIENCE.map((item, idx) => (
+          {experience.map((item, idx) => (
             <TimelineItem
               key={`${item.company}-${item.period}`}
               item={item}
-              isLast={idx === EXPERIENCE.length - 1}
+              isLast={idx === experience.length - 1}
             />
           ))}
         </ol>

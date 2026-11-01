@@ -1,6 +1,6 @@
-import { SUMMARY, SUMMARY_HIGHLIGHTS } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import type { Content } from '@/data/content';
 
 function highlight(text: string, terms: readonly string[]) {
   if (terms.length === 0) return [{ text, hl: false, key: 0 }];
@@ -16,17 +16,18 @@ function highlight(text: string, terms: readonly string[]) {
   }));
 }
 
-const tokens = highlight(SUMMARY, SUMMARY_HIGHLIGHTS);
+export function Summary({ content }: { content: Content }) {
+  const section = content.ui.sections.summary;
+  const tokens = highlight(content.summary, content.summaryHighlights);
 
-export function Summary() {
   return (
     <section
       id="summary"
-      aria-label="Summary"
+      aria-label={section.label}
       className="scroll-mt-20 py-16 md:py-24"
     >
       <Container>
-        <SectionHeading eyebrow="01 — Summary">A quick introduction.</SectionHeading>
+        <SectionHeading eyebrow={section.eyebrow}>{section.title}</SectionHeading>
         <p
           className="reveal max-w-3xl text-[15px] leading-[1.85] text-primary/80 dark:text-secondary/80 sm:text-base"
         >

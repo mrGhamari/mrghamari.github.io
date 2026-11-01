@@ -8,18 +8,17 @@ import { cn } from '@/lib/utils';
 
 type ThemeToggleProps = {
   className?: string;
+  labels: { toLight: string; toDark: string; toggle: string };
 };
 
-export function ThemeToggle({ className }: ThemeToggleProps) {
+export function ThemeToggle({ className, labels }: ThemeToggleProps) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
   const isDark = resolvedTheme === 'dark';
-  const ariaLabel = mounted
-    ? `Switch to ${isDark ? 'light' : 'dark'} mode`
-    : 'Toggle theme';
+  const ariaLabel = mounted ? (isDark ? labels.toLight : labels.toDark) : labels.toggle;
 
   return (
     <button

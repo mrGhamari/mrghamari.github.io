@@ -17,6 +17,7 @@ A statically-exported, fully-typed personal site that reads like a résumé and 
 ## ✨ Highlights
 
 - **Single source of truth for content.** Every section — Hero, Skills, Experience, Education, Contact — renders from one typed `data/resume.ts` module. Update your résumé, ship the site.
+- **English and Persian.** A full Persian (RTL) version lives at `/fa/`, with an EN / FA switch and `hreflang` links between the two.
 - **Hero-aware navigation.** The header stays hidden while you're in the hero, then slides in once you scroll into the content — driven by `IntersectionObserver`, not scroll listeners.
 - **Motion that earns its place.** Letter-by-letter name reveal, typewriter title, animated underline that uses `layoutId` to morph between active nav links, spring-smoothed scroll progress bar.
 - **Light/dark with no flash.** `next-themes` with `attribute="class"` and `suppressHydrationWarning` for a hydration-safe theme toggle.
@@ -155,6 +156,12 @@ my-app/
 - A `noindex` 404 page (`app/not-found.tsx`).
 - Themed `themeColor` for both light and dark UA chrome.
 
+### Two languages: English (`/`) and Persian (`/fa/`)
+- Each language has its own root layout (`app/(en)`, `app/(fa)`), so `/fa/` gets a real `<html lang="fa" dir="rtl">`. Unmatched URLs use `app/global-not-found.tsx`.
+- `data/content.ts` assembles everything a page renders per language: resume data plus UI strings. Sections take a `content` prop instead of importing `data/resume.ts`.
+- Persian text lives in `data/resume.fa.ts`. Jobs are keyed by company name, and the build fails if a job in `data/resume.ts` has no Persian entry. **When you change the English resume, update the Persian file too.**
+- Layout uses logical properties (`ps-*`, `start-*`, `text-start`), so it mirrors in RTL. Persian glyphs use Vazirmatn; Latin words on `/fa/` keep Inter.
+
 #### Search Console setup
 1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/` and pick the **HTML tag** method.
 2. The token is set in `app/layout.tsx` (it is public anyway: it ships in the page's `<head>`). To use a different one without a code change, set a repository variable named `GOOGLE_SITE_VERIFICATION` (Settings → Secrets and variables → Actions → Variables) and re-run the deploy workflow.
@@ -214,7 +221,7 @@ This is a personal portfolio, but PRs that fix bugs, improve accessibility, or s
 - ESLint config: `next/core-web-vitals` (`.eslintrc.json`).
 - TypeScript: `strict: true`, no implicit `any`, path alias `@/*` points at the repo root.
 - Tailwind: prefer utility classes; if you reach for `cn()`, you're probably doing the right thing.
-- Keep `data/resume.ts` the only place résumé content lives — sections should read from it.
+- Keep résumé content in `data/resume.ts` (English) and `data/resume.fa.ts` (Persian) — sections should read it through `data/content.ts`.
 
 **Workflow**
 

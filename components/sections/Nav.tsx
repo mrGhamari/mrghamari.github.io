@@ -3,18 +3,29 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NAV_LINKS, PERSONAL } from '@/data/resume';
 import { DownloadButton } from '@/components/ui/DownloadButton';
+import { LanguageSwitch } from '@/components/ui/LanguageSwitch';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import type { UiStrings } from '@/data/content';
+import type { NavLink } from '@/data/resume';
+import type { Locale } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
-export function Nav() {
+type NavProps = {
+  locale: Locale;
+  navLinks: readonly NavLink[];
+  resumeUrl: string;
+  resumeFilename: string;
+  ui: UiStrings;
+};
+
+export function Nav({ locale, navLinks, resumeUrl, resumeFilename, ui }: NavProps) {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>('summary');
   const [showHeader, setShowHeader] = useState(false);
 
   useEffect(() => {
-    const sections = NAV_LINKS.map((l) =>
+    const sections = navLinks.map((l) =>
       document.getElementById(l.id),
     ).filter((el): el is HTMLElement => el !== null);
 
@@ -32,7 +43,7 @@ export function Nav() {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [navLinks]);
 
   useEffect(() => {
     const hero = document.getElementById('top');
@@ -67,18 +78,19 @@ export function Nav() {
       )}
     >
       <nav
-        aria-label="Primary"
+        aria-label={ui.primaryNav}
         className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-6 sm:px-8"
       >
         <a
           href="#top"
+          dir="ltr"
           className="font-bold tracking-tight text-primary dark:text-secondary"
         >
           <span className="text-accent-500">M</span>G.
         </a>
 
         <ul className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map((link) => {
+          {navLinks.map((link) => {
             const active = activeId === link.id;
             return (
               <li key={link.id}>
@@ -107,12 +119,21 @@ export function Nav() {
 
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
-            <DownloadButton variant="compact" />
+            <DownloadButton
+              variant="compact"
+              resumeUrl={resumeUrl}
+              resumeFilename={resumeFilename}
+              label={ui.downloadResume}
+              ariaLabel={ui.downloadResumeLabel}
+            />
           </div>
-          <ThemeToggle />
+          <LanguageSwitch locale={locale} label={ui.languageSwitch} />
+          <ThemeToggle
+            labels={{ toLight: ui.themeToLight, toDark: ui.themeToDark, toggle: ui.themeToggle }}
+          />
           <button
             type="button"
-            aria-label="Toggle menu"
+            aria-label={ui.toggleMenu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/10 text-primary transition-colors hover:border-accent-400 hover:text-accent-500 dark:border-white/10 dark:text-secondary md:hidden"
@@ -136,7 +157,7 @@ export function Nav() {
             className="overflow-hidden border-t border-black/5 dark:border-white/10 md:hidden"
           >
             <ul className="space-y-1 px-6 py-4">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.id}>
                   <a
                     href={`#${link.id}`}
@@ -149,12 +170,12 @@ export function Nav() {
               ))}
               <li>
                 <a
-                  href={PERSONAL.resumeUrl}
-                  download={PERSONAL.resumeFilename}
+                  href={resumeUrl}
+                  download={resumeFilename}
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-3 py-2 text-base font-semibold text-accent-500"
                 >
-                  Download Resume
+                  {ui.downloadResume}
                 </a>
               </li>
             </ul>

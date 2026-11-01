@@ -3,19 +3,26 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { useCallback } from 'react';
-import { PERSONAL } from '@/data/resume';
 import { cn } from '@/lib/utils';
 
 type DownloadButtonProps = {
   variant?: 'primary' | 'secondary' | 'compact';
   className?: string;
   showLabel?: boolean;
+  resumeUrl: string;
+  resumeFilename: string;
+  label: string;
+  ariaLabel: string;
 };
 
 export function DownloadButton({
   variant = 'primary',
   className,
   showLabel = true,
+  resumeUrl,
+  resumeFilename,
+  label,
+  ariaLabel,
 }: DownloadButtonProps) {
   // MotionConfig's reducedMotion only disables transforms, not this box-shadow loop.
   const reduceMotion = useReducedMotion();
@@ -23,10 +30,10 @@ export function DownloadButton({
 
   const handleDownload = useCallback(() => {
     const link = document.createElement('a');
-    link.href = PERSONAL.resumeUrl;
-    link.download = PERSONAL.resumeFilename;
+    link.href = resumeUrl;
+    link.download = resumeFilename;
     link.click();
-  }, []);
+  }, [resumeUrl, resumeFilename]);
 
   const base = cn(
     'group relative inline-flex items-center gap-2 rounded-full font-semibold',
@@ -48,8 +55,8 @@ export function DownloadButton({
     <motion.button
       type="button"
       onClick={handleDownload}
-      aria-label="Download resume as PDF"
-      title="Download PDF Resume"
+      aria-label={ariaLabel}
+      title={ariaLabel}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
       animate={
@@ -74,7 +81,7 @@ export function DownloadButton({
         className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5"
         aria-hidden="true"
       />
-      {showLabel && 'Download Resume'}
+      {showLabel && label}
     </motion.button>
   );
 }
