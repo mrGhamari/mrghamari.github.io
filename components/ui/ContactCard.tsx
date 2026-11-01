@@ -7,6 +7,8 @@ type ContactCardProps = {
   value: string;
   href: string;
   external?: boolean;
+  /** Left-to-right value (email, phone, handle) that must not be reordered on RTL pages. */
+  ltr?: boolean;
 };
 
 export function ContactCard({
@@ -15,6 +17,7 @@ export function ContactCard({
   value,
   href,
   external = false,
+  ltr = false,
 }: ContactCardProps) {
   return (
     <a
@@ -39,12 +42,15 @@ export function ContactCard({
         <p className="text-xs font-semibold uppercase tracking-widest text-muted">
           {label}
         </p>
-        <p className="mt-0.5 truncate font-medium text-primary dark:text-secondary">
+        <p
+          dir={ltr ? 'ltr' : undefined}
+          className="mt-0.5 truncate font-medium text-primary dark:text-secondary rtl:text-right"
+        >
           {value}
         </p>
       </div>
       <ArrowUpRight
-        className="h-4 w-4 text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="h-4 w-4 text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100 rtl:-scale-x-100"
         aria-hidden="true"
       />
     </a>

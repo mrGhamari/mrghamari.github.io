@@ -6,6 +6,8 @@ type ContactPillProps = {
   href: string;
   external?: boolean;
   download?: string | boolean;
+  /** Left-to-right value (email, phone, handle) that must not be reordered on RTL pages. */
+  ltr?: boolean;
 };
 
 export function ContactPill({
@@ -14,6 +16,7 @@ export function ContactPill({
   href,
   external = false,
   download,
+  ltr = false,
 }: ContactPillProps) {
   return (
     <a
@@ -36,7 +39,9 @@ export function ContactPill({
         className="h-3.5 w-3.5 text-muted transition-colors group-hover:text-accent-500"
         aria-hidden="true"
       />
-      <span className="font-medium">{label}</span>
+      <span className="font-medium" dir={ltr ? 'ltr' : undefined}>
+        {label}
+      </span>
     </a>
   );
 }

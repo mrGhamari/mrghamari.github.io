@@ -133,8 +133,20 @@
       animation-timeline: view();
       animation-range: entry 20% cover 30%;
     }
+    [dir="rtl"] .reveal-line { transform-origin: right; }
   }
 }
+
+/*
+ * Persian (/fa/): Vazirmatn for Persian glyphs; Inter stays first so Latin
+ * words (Next.js, React…) look the same as on the English page.
+ */
+html[lang="fa"] {
+  --font-sans: var(--font-inter-fa), var(--font-vazirmatn), Tahoma, sans-serif;
+}
+/* Letter-spacing pulls joined Persian letters apart, so tracking is off. */
+html[lang="fa"] body * { letter-spacing: normal; }
+html[lang="fa"] body { line-height: 1.8; }
 
 *, *::before, *::after { box-sizing: border-box; }
 
